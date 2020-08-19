@@ -5,11 +5,12 @@ import "react-datepicker/dist/react-datepicker.css";
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Calendar() {
+function Calendar({ changeDate }) {
     const initialDate = new Date();
     const [selectedDate, setSelectedDate] = useState(initialDate);
 
     const handleChange = (date) => {
+        changeDate(date);
         setSelectedDate(date);
     };
 
