@@ -3,11 +3,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parseISO } from "date-fns";
 import Api from "../Helpers/api";
-import Button from "@material-ui/core/Button";
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Calendar({ changeDates, startDateProp, endDateProp }) {
+function Calendar({
+    changeStartDate,
+    changeEndDate,
+    startDateProp,
+    endDateProp,
+}) {
     const [minDate, setMinDate] = useState(null);
     const [maxDate, setMaxDate] = useState(null);
 
@@ -22,46 +26,38 @@ function Calendar({ changeDates, startDateProp, endDateProp }) {
 
         getRange();
     }, [startDateProp, endDateProp]);
-
-    // const handleStartChange = (date) => {
-    //     changeStartDate(date);
-    // };
-
-    // const handleEndChange = (date) => {
-    //     changeEndDate(date);
-    // };
-
-    const handleSubmit = (dates) => {
-        console.log("dates", dates);
-        changeDates(dates);
+    const handleStartChange = (date) => {
+        changeStartDate(date);
     };
 
+    const handleEndChange = (date) => {
+        changeEndDate(date);
+    };
     //todo: add a submit button, handleChange will only fire when it is clicked
     return (
         <>
-            <label for="start-time">Choose a starting date and time:</label>
-
-            <input
-                type="datetime-local"
-                id="start-time"
-                name="start-time"
-                value={maxDate}
-                min={minDate}
-                max={maxDate}
+            <DatePicker
+                selected={startDateProp}
+                onChange={(date) => handleStartChange(date)}
+                startDate={startDateProp}
+                endDate={endDateProp}
+                showTimeSelect
+                selectsStart
+                inline
+                minDate={minDate}
+                maxDate={maxDate}
             />
-            <label for="end-time">Choose an ending date and time:</label>
-
-            <input
-                type="datetime-local"
-                id="end-time"
-                name="end-time"
-                value={maxDate}
-                min={minDate}
-                max={maxDate}
+            <DatePicker
+                selected={endDateProp}
+                onChange={(date) => handleEndChange(date)}
+                startDate={startDateProp}
+                endDate={endDateProp}
+                showTimeSelect
+                selectsEnd
+                inline
+                minDate={startDateProp}
+                maxDate={maxDate}
             />
-            <Button variant="contained" onClick={handleSubmit}>
-                Submit
-            </Button>
         </>
     );
 }
