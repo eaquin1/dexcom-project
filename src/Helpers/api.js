@@ -3,14 +3,12 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 class Api {
-    static async sugars(startDate, endDate) {
-        let res = await axios.get(
-            `${BASE_URL}/data/egvs/${startDate}&${endDate}`,
-            {
-                withCredentials: true,
-                origin: true,
-            }
-        );
+    static async sugars(dates) {
+        let res = await axios.get(`${BASE_URL}/data/egvs`, {
+            withCredentials: true,
+            origin: true,
+            params: dates,
+        });
 
         return res.data.egvs;
     }

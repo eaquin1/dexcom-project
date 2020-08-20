@@ -11,8 +11,11 @@ function PrivateLanding() {
     const getOneDayBefore = subDays(getCurrentDate, 1);
     const [startDate, setStartDate] = useState(getOneDayBefore);
     const [endDate, setEndDate] = useState(getCurrentDate);
-    const changeStartDate = (start) => setStartDate(start);
-    const changeEndDate = (end) => setEndDate(end);
+    const changeDates = (dates) => {
+        const { start, end } = dates;
+        setStartDate(start);
+        setEndDate(end);
+    };
 
     console.log("* Start Date:", startDate);
     console.log("* End Date:", endDate);
@@ -21,8 +24,7 @@ function PrivateLanding() {
         <>
             <h1>Welcome!</h1>
             <Calendar
-                changeStartDate={changeStartDate}
-                changeEndDate={changeEndDate}
+                changeDates={changeDates}
                 startDate={startDate}
                 endDate={endDate}
             />

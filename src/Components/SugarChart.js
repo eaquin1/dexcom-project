@@ -31,14 +31,16 @@ function SugarChart({ startDate, endDate }) {
     //useCallBack??
     useEffect(() => {
         async function getSugars() {
+            const dates = {
+                startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
+                endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss"),
+            };
+
             console.log(
                 "From useEffect, in Chart",
                 format(startDate, "yyyy-MM-dd'T'HH:mm:ss")
             );
-            let sugarRes = await Api.sugars(
-                format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
-                format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
-            );
+            let sugarRes = await Api.sugars(dates);
 
             setSugars(sugarRes);
             //map over the sugars array to get a new array of sugar values, for the y-axis
@@ -46,6 +48,18 @@ function SugarChart({ startDate, endDate }) {
             console.log("SugarValues", sugarValues);
             //map over the sugars array to get a new array of dates, for the x-axis
             setDateValues(sugars.map((sugar) => sugar.displayTime));
+            // setOptions({
+            //     options: {
+            //         ...options,
+            //         xaxis: {
+            //             categories: dateValues,
+            //         },
+            //     },
+            // });
+            // setSeries({
+            //     ...series,
+            //     data: dateValues,
+            // });
             console.log("Date values", dateValues);
         }
         getSugars();
