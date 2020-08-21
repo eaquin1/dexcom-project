@@ -1,46 +1,33 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { parseISO } from "date-fns";
-import Api from "../Helpers/api";
+import { format, subDays } from "date-fns";
+//import Api from "../Helpers/api";
+import Button from "@material-ui/core/Button";
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Calendar({
-    changeStartDate,
-    changeEndDate,
-    startDateProp,
-    endDateProp,
-}) {
-    const [minDate, setMinDate] = useState(null);
-    const [maxDate, setMaxDate] = useState(null);
+function Calendar({ changeDates, minDate, maxDate }) {
+    const getCurrentDate = new Date();
+    const getOneDayBefore = subDays(getCurrentDate, 1);
+    const [startDate, setStartDate] = useState(getOneDayBefore);
+    const [endDate, setEndDate] = useState(getCurrentDate);
 
-    // get possible data ranges for a user's account
-    useEffect(() => {
-        async function getRange() {
-            let range = await Api.getDataRange();
-            console.log(range);
-            setMinDate(parseISO(range.start.displayTime));
-            setMaxDate(parseISO(range.end.displayTime));
-        }
-
-        getRange();
-    }, [startDateProp, endDateProp]);
-    const handleStartChange = (date) => {
-        changeStartDate(date);
-    };
-
-    const handleEndChange = (date) => {
-        changeEndDate(date);
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        changeDates(
+            format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
+            format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
+        );
     };
     //todo: add a submit button, handleChange will only fire when it is clicked
     return (
-        <>
+        <form>
             <DatePicker
-                selected={startDateProp}
-                onChange={(date) => handleStartChange(date)}
-                startDate={startDateProp}
-                endDate={endDateProp}
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                startDate={startDate}
+                //endDate={endDate}
                 showTimeSelect
                 selectsStart
                 inline
@@ -48,17 +35,20 @@ function Calendar({
                 maxDate={maxDate}
             />
             <DatePicker
-                selected={endDateProp}
-                onChange={(date) => handleEndChange(date)}
-                startDate={startDateProp}
-                endDate={endDateProp}
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                startDate={startDate}
+                endDate={endDate}
                 showTimeSelect
                 selectsEnd
                 inline
-                minDate={startDateProp}
+                minDate={minDate}
                 maxDate={maxDate}
             />
-        </>
+            <Button variant="contained" onClick={handleSubmit}>
+                Submit
+            </Button>
+        </form>
     );
 }
 

@@ -233,39 +233,42 @@ function SugarChart({ startDate, endDate }) {
             ],
         },
     ]);
-    //useCallBack??
+
+    //End Date: 2020-08-19T15:26:48-05:00
+
+    //useCallBack ??
     useEffect(() => {
         async function getSugars() {
-            const dates = {
-                startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
-                endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss"),
-            };
+            if (startDate !== null && endDate !== null) {
+                const dates = {
+                    startDate: startDate,
+                    endDate: endDate,
+                };
 
-            console.log(
-                "From useEffect, in Chart",
-                format(startDate, "yyyy-MM-dd'T'HH:mm:ss")
-            );
-            let sugarRes = await Api.sugars(dates);
+                console.log("From useEffect, in Chart", startDate);
+                let sugarRes = await Api.sugars(dates);
+                console.log(sugarRes);
+                setSugars(sugarRes);
 
-            setSugars(sugarRes);
-            //map over the sugars array to get a new array of sugar values, for the y-axis
-            setSugarValues(sugars.map((sugar) => sugar.value));
-            console.log("SugarValues", sugarValues);
-            //map over the sugars array to get a new array of dates, for the x-axis
-            setDateValues(sugars.map((sugar) => sugar.displayTime));
-            // setOptions({
-            //     options: {
-            //         ...options,
-            //         xaxis: {
-            //             categories: dateValues,
-            //         },
-            //     },
-            // });
-            // setSeries({
-            //     ...series,
-            //     data: dateValues,
-            // });
-            console.log("Date values", dateValues);
+                // //map over the sugars array to get a new array of sugar values, for the y-axis
+                // setSugarValues(sugars.map((sugar) => sugar.value));
+                // console.log("SugarValues", sugarValues);
+                // //map over the sugars array to get a new array of dates, for the x-axis
+                // setDateValues(sugars.map((sugar) => sugar.displayTime));
+                // setOptions({
+                //     options: {
+                //         ...options,
+                //         xaxis: {
+                //             categories: dateValues,
+                //         },
+                //     },
+                // });
+                // setSeries({
+                //     ...series,
+                //     data: dateValues,
+                // });
+                //onsole.log("Date values", dateValues);
+            }
         }
         getSugars();
     }, [startDate, endDate]);
