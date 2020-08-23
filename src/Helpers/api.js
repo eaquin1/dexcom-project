@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
-
+const instance = axios.create({
+    withCredentials: true,
+    origin: true,
+    baseURL: BASE_URL,
+});
 class Api {
     static async sugars(dates) {
-        let res = await axios.get(`${BASE_URL}/data/egvs`, {
-            withCredentials: true,
-            origin: true,
+        let res = await instance.get(`/data/egvs`, {
             params: dates,
         });
 
@@ -14,18 +16,13 @@ class Api {
     }
 
     static async events() {
-        let res = await axios.get(`${BASE_URL}/data/events`, {
-            withCredentials: true,
-            origin: true,
-        });
+        let res = await instance.get(`/data/events`);
 
         return res.data.events;
     }
 
     static async foods(item) {
-        let res = await axios.get(`${BASE_URL}/data/foods`, {
-            withCredentials: true,
-            origin: true,
+        let res = await instance.get(`/data/foods`, {
             params: item,
         });
 
@@ -33,9 +30,7 @@ class Api {
     }
 
     static async carbs(item) {
-        let res = await axios.post(`${BASE_URL}/data/carbs`, {
-            withCredentials: true,
-            origin: true,
+        let res = await instance.post(`/data/carbs`, {
             data: {
                 item,
             },
@@ -44,22 +39,16 @@ class Api {
         return res.data;
     }
 
-    static async addMeal(meal) {
-        let res = await axios(`${BASE_URL}/data/addmeal`, {
-            method: "post",
-            data: meal,
-            withCredentials: true,
-            origin: true,
+    static async addMeal(meal, foods) {
+        let res = await instance.post(`/data/addmeal`, {
+            data: { meal, foods },
         });
 
         return res;
     }
 
     static async getDataRange() {
-        let res = await axios.get(`${BASE_URL}/data/range`, {
-            withCredentials: true,
-            origin: true,
-        });
+        let res = await instance.get(`/data/range`);
 
         return res.data;
     }
