@@ -22,13 +22,26 @@ class Api {
         return res.data.events;
     }
 
-    static async carbs() {
-        let res = await axios.get(`${BASE_URL}/data/carbs`, {
+    static async foods(item) {
+        let res = await axios.get(`${BASE_URL}/data/foods`, {
             withCredentials: true,
             origin: true,
+            params: item,
         });
 
-        return res;
+        return res.data;
+    }
+
+    static async carbs(item) {
+        let res = await axios.post(`${BASE_URL}/data/carbs`, {
+            withCredentials: true,
+            origin: true,
+            data: {
+                item,
+            },
+        });
+
+        return res.data;
     }
 
     static async addMeal(meal) {

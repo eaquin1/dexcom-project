@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FoodForm from "./FoodForm";
 import Api from "../Helpers/api";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
@@ -30,7 +31,9 @@ function MealForm() {
     //     }));
     //     console.log(meal);
     // };
-
+    const addItem = (item) => {
+        console.log(item.totalNutrients.CHOCDF);
+    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <section>
@@ -64,6 +67,7 @@ function MealForm() {
                 placeholderText="Choose a mealtime"
             />
             <Icon color="secondary">add_circle</Icon>
+            <FoodForm addItem={addItem} />
             {/* <input
                 id="name"
                 name="name"
