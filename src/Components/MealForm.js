@@ -3,7 +3,7 @@ import FoodForm from "./FoodForm";
 import Api from "../Helpers/api";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
-import { Select, MenuItem, Menu, Icon, Button } from "@material-ui/core";
+import { Select, MenuItem, Icon } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Meal from "./Meal";
 
@@ -11,6 +11,7 @@ import Meal from "./Meal";
 
 const defaultValues = {
     Select: "breakfast",
+    ReactDatepicker: Date.now(),
 };
 function MealForm() {
     const { handleSubmit, register, control } = useForm({ defaultValues });
@@ -19,10 +20,21 @@ function MealForm() {
     const [meals, setMeals] = useState(INITIAL_STATE);
     const [open, setOpen] = useState(false);
 
-    const onSubmit = async (meal) => {
+    const onSubmit = async (curMeal) => {
+        setMeals((prevMeals) => ({
+            ...prevMeals,
+            name: curMeal.Select,
+            time: curMeal.ReactDatepicker,
+        }));
         const foodArray = foods.map((food) => food.name);
+        const saveMeal = {
+            name: curMeal.Select,
+            time: curMeal.ReactDatepicker,
+            carbCount: meals.carbCount,
+        };
+
         try {
-            await Api.addMeal(meal, foodArray);
+            await Api.addMeal(saveMeal, foodArray);
         } catch (e) {
             console.log(e);
         }
@@ -36,7 +48,7 @@ function MealForm() {
         setOpen(false);
     };
     const addItem = (item, itemName) => {
-        console.log(item); //.totalNutrients.CHOCDF);
+        //console.log(item); //.totalNutrients.CHOCDF);
         let nutrients = {
             name: itemName,
             serving: `${item.totalWeight} g`,
@@ -53,7 +65,9 @@ function MealForm() {
         };
         setMeals((prevMeals) => ({
             ...prevMeals,
-            carbCount: meals.carbCount + item.totalNutrients.CHOCDF.quantity,
+            carbCount: Math.round(
+                meals.carbCount + item.totalNutrients.CHOCDF.quantity
+            ),
         }));
         setFoods((food) => [...foods, { ...nutrients }]);
     };
@@ -78,7 +92,7 @@ function MealForm() {
                         //ref={register}
                     />
                 </section>
-                <Controller
+                {/* <Controller
                     as={DatePicker}
                     control={control}
                     valueName="selected"
@@ -90,6 +104,21 @@ function MealForm() {
                     timeCaption="Time"
                     //dateFormat="h:mm aa"
                     placeholderText="Choose a mealtime"
+                /> */}
+                <Controller
+                    control={control}
+                    name="ReactDatepicker"
+                    render={({ onChange, onBlur, value }) => (
+                        <DatePicker
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            selected={value}
+                            defaultValue={Date.now()}
+                            showTimeSelect
+                            timeIntervals={15}
+                            timeCaption="Time"
+                        />
+                    )}
                 />
                 <button className="button">Add a new meal!</button>
             </form>

@@ -56,9 +56,7 @@ function Meal({ foods, carbCount }) {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell align="right">{`${carbCount.toFixed(
-                            1
-                        )} g`}</TableCell>
+                        <TableCell align="right">{`${carbCount} g`}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>

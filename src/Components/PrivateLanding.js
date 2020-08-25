@@ -4,7 +4,7 @@ import Calendar from "./Calendar";
 import MealForm from "./MealForm";
 import MealList from "./MealList";
 import Api from "../Helpers/api";
-import { subDays, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 function PrivateLanding() {
     const [minDate, setMinDate] = useState(null);
