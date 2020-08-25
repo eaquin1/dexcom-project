@@ -12,10 +12,14 @@ function SugarChart({ startDate, endDate }) {
             background: "#f4f4f4",
             foreColor: "#333",
         },
-        yaxis: {
-            dataLabels: { enabled: true },
-            title: { text: 'Blood Glucose Levels ("mg/dL")' },
-        },
+        yaxis: [
+            { opposite: true, title: { text: "Carbs (g)" } },
+            {
+                dataLabels: { enabled: true },
+                title: { text: 'Blood Glucose Levels ("mg/dL")' },
+            },
+        ],
+
         stroke: {
             curve: "straight",
         },
@@ -81,18 +85,18 @@ function SugarChart({ startDate, endDate }) {
     //useCallBack ??
     useEffect(() => {
         async function getSugars() {
+            console.log(typeof startDate);
             if (startDate !== null && endDate !== null) {
                 const dates = {
                     startDate: startDate,
                     endDate: endDate,
                 };
 
-                console.log("From useEffect, in Chart", startDate);
                 let sugarRes = await Api.sugars(dates);
                 setSugars(sugarRes);
 
-                // //map over the sugars array to get a new array of sugar values, for the y-axis
-                // setSugarValues(sugars.map((sugar) => sugar.value));
+                //map over the sugars array to get a new array of sugar values, for the y-axis
+                setSugarValues(sugars.map((sugar) => sugar.value));
                 // console.log("SugarValues", sugarValues);
                 // //map over the sugars array to get a new array of dates, for the x-axis
                 // setDateValues(sugars.map((sugar) => sugar.displayTime));

@@ -4,13 +4,14 @@ import Calendar from "./Calendar";
 import MealForm from "./MealForm";
 import MealList from "./MealList";
 import Api from "../Helpers/api";
-import { parseISO } from "date-fns";
+import { parse, parseISO, subHours, subDays } from "date-fns";
 
 function PrivateLanding() {
+    const yesterday = subDays(Date.now(), 1);
     const [minDate, setMinDate] = useState(null);
     const [maxDate, setMaxDate] = useState(null);
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(null); //useState(yesterday);
+    const [endDate, setEndDate] = useState(null); //useState(subHours(yesterday, 1));
 
     // get possible data ranges for a user's account
     useEffect(() => {

@@ -1,51 +1,68 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format, subDays } from "date-fns";
-//import Api from "../Helpers/api";
+import { format } from "date-fns";
+import { useForm, Controller } from "react-hook-form";
+
 import Button from "@material-ui/core/Button";
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 function Calendar({ changeDates, minDate, maxDate }) {
-    const getCurrentDate = new Date();
-    const getOneDayBefore = subDays(getCurrentDate, 1);
-    const [startDate, setStartDate] = useState(getOneDayBefore);
-    const [endDate, setEndDate] = useState(getCurrentDate);
+    const { handleSubmit, control } = useForm();
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
+    const onSubmit = () => {
+        console.log("StartDate", startDate);
         changeDates(
             format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
             format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
         );
     };
-    //todo: add a submit button, handleChange will only fire when it is clicked
+
     return (
         <form>
-            <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                startDate={startDate}
-                //endDate={endDate}
-                showTimeSelect
-                selectsStart
-                inline
-                minDate={minDate}
-                maxDate={maxDate}
+            <Controller
+                control={control}
+                name="StartDatePicker"
+                defaultValue={startDate}
+                render={({ onBlur }) => (
+                    <DatePicker
+                        onChange={(value) => setStartDate(new Date(value))}
+                        onBlur={onBlur}
+                        selected={startDate}
+                        defaultValue={maxDate}
+                        showTimeSelect
+                        timeIntervals={15}
+                        timeCaption="Time"
+                        minDate={minDate}
+                        maxDate={maxDate}
+                        inline
+                    />
+                )}
             />
-            <DatePicker
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                startDate={startDate}
-                endDate={endDate}
-                showTimeSelect
-                selectsEnd
-                inline
-                minDate={minDate}
-                maxDate={maxDate}
+            <Controller
+                control={control}
+                name="EndDatePicker"
+                defaultValue={endDate}
+                render={({ onBlur }) => (
+                    <DatePicker
+                        onChange={(date) => setEndDate(new Date(date))}
+                        onBlur={onBlur}
+                        selected={endDate}
+                        defaultValue={maxDate}
+                        showTimeSelect
+                        timeIntervals={15}
+                        timeCaption="Time"
+                        minDate={minDate}
+                        maxDate={maxDate}
+                        inline
+                    />
+                )}
             />
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
                 Submit
             </Button>
         </form>
