@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
@@ -11,15 +11,15 @@ import Button from "@material-ui/core/Button";
 function Calendar({ changeDates, minDate, maxDate }) {
     const { handleSubmit, control } = useForm();
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    // const [startDate, setStartDate] = useState(null);
+    // const [endDate, setEndDate] = useState(null);
 
-    const onSubmit = () => {
-        console.log("StartDate", startDate);
-        changeDates(
-            format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
-            format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
-        );
+    const onSubmit = (data) => {
+        let dates = {
+            startDate: format(data.StartDatePicker, "yyyy-MM-dd'T'HH:mm:ss"),
+            endDate: format(data.EndDatePicker, "yyyy-MM-dd'T'HH:mm:ss"),
+        };
+        changeDates(dates);
     };
 
     return (
@@ -27,12 +27,12 @@ function Calendar({ changeDates, minDate, maxDate }) {
             <Controller
                 control={control}
                 name="StartDatePicker"
-                defaultValue={startDate}
-                render={({ onBlur }) => (
+                defaultValue={maxDate}
+                render={({ onBlur, onChange, value }) => (
                     <DatePicker
-                        onChange={(value) => setStartDate(new Date(value))}
+                        onChange={onChange}
                         onBlur={onBlur}
-                        selected={startDate}
+                        selected={value}
                         defaultValue={maxDate}
                         showTimeSelect
                         timeIntervals={15}
@@ -46,12 +46,12 @@ function Calendar({ changeDates, minDate, maxDate }) {
             <Controller
                 control={control}
                 name="EndDatePicker"
-                defaultValue={endDate}
-                render={({ onBlur }) => (
+                defaultValue={maxDate}
+                render={({ onBlur, onChange, value }) => (
                     <DatePicker
-                        onChange={(date) => setEndDate(new Date(date))}
+                        onChange={onChange}
                         onBlur={onBlur}
-                        selected={endDate}
+                        selected={value}
                         defaultValue={maxDate}
                         showTimeSelect
                         timeIntervals={15}

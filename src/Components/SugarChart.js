@@ -3,10 +3,7 @@ import Api from "../Helpers/api";
 import { format } from "date-fns";
 import Chart from "react-apexcharts";
 
-function SugarChart({ startDate, endDate }) {
-    const [sugars, setSugars] = useState([]);
-    const [sugarValues, setSugarValues] = useState([]);
-    const [dateValues, setDateValues] = useState([]);
+function SugarChart({ dates, meals }) {
     const [options, setOptions] = useState({
         chart: {
             background: "#f4f4f4",
@@ -30,23 +27,7 @@ function SugarChart({ startDate, endDate }) {
             },
         },
         xaxis: {
-            categories: [
-                "17:01",
-                "16:56",
-                "16:51",
-                "16:46",
-                "16:41",
-                "16:36",
-                "16:31",
-                "16:26",
-                "16:21",
-                "16:16",
-                "16:11",
-                "16:06",
-                "16:01",
-                "15:56",
-                "15:51",
-            ].reverse(),
+            categories: [],
 
             title: { text: "Time" },
         },
@@ -55,78 +36,78 @@ function SugarChart({ startDate, endDate }) {
         {
             name: "Meals",
             type: "column",
-            data: [30, 0, 0, 0, 24, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0],
+            data: [],
         },
         {
             name: "Glucose values",
             type: "line",
-            data: [
-                156,
-                152,
-                149,
-                151,
-                149,
-                149,
-                150,
-                150,
-                148,
-                146,
-                140,
-                133,
-                129,
-                123,
-                122,
-            ].reverse(),
+            data: [],
         },
     ]);
-
-    //End Date: 2020-08-19T15:26:48-05:00
-
-    //useCallBack ??
-    useEffect(() => {
-        async function getSugars() {
-            console.log(typeof startDate);
-            if (startDate !== null && endDate !== null) {
-                const dates = {
-                    startDate: startDate,
-                    endDate: endDate,
-                };
-
-                let sugarRes = await Api.sugars(dates);
-                setSugars(sugarRes);
-
-                //map over the sugars array to get a new array of sugar values, for the y-axis
-                setSugarValues(sugars.map((sugar) => sugar.value));
-                // console.log("SugarValues", sugarValues);
-                // //map over the sugars array to get a new array of dates, for the x-axis
-                // setDateValues(sugars.map((sugar) => sugar.displayTime));
-                // setOptions({
-                //     options: {
-                //         ...options,
-                //         xaxis: {
-                //             categories: dateValues,
-                //         },
-                //     },
-                // });
-                // setSeries({
-                //     ...series,
-                //     data: dateValues,
-                // });
-                //onsole.log("Date values", dateValues);
+    const placeMealTimes = (meal, sugarRes) => {
+        console.log(meal);
+        const mealTime = meal[0].time;
+        console.log("system time", sugarRes[0].systemTime);
+        console.log(
+            "meal time",
+            format(new Date(mealTime), "yyyy-MM-dd'T'HH:mm:ss")
+        );
+        const idxs = [];
+        for (let time = 0; time < sugarRes.length; time++) {
+            if (sugarRes[time].systemTime === mealTime) {
+                idxs.push(time);
             }
         }
+
+        return idxs;
+    };
+    useEffect(() => {
+        async function getSugars() {
+            let sugarRes = await Api.sugars(dates);
+
+            //set the x-axis values from the Dexcom response
+            let sugarTimes = sugarRes
+                .map((sugarTime) =>
+                    format(new Date(sugarTime.systemTime), "h:mm aaaa")
+                )
+                .reverse();
+            //create an array for meals, the same length as sugarTimes
+            let mealTimes = Array(sugarTimes.length).fill(null);
+
+            if (meals.length !== 0) {
+                let correspondingTimes = placeMealTimes(meals, sugarRes);
+                mealTimes[correspondingTimes] = meals.carbCount;
+            }
+
+            setOptions((options) => ({
+                ...options,
+                xaxis: { ...options.xaxis.title, categories: sugarTimes },
+            }));
+
+            //set the y-axis values from the Dexcom response
+            let sugarVals = sugarRes.map((sugar) => sugar.value).reverse();
+            setSeries((series) => {
+                //create a copy of the state array
+                let seriesCopy = [...series];
+                // console.log("series copy", seriesCopy);
+                // console.log("Meal times", mealTimes);
+                //create a copy of the object at the second index (where the sugars are in the array)
+
+                seriesCopy[0] = { ...series[0], data: mealTimes };
+                seriesCopy[1] = {
+                    ...series[1],
+                    data: sugarVals,
+                };
+                return seriesCopy;
+            });
+        }
         getSugars();
-    }, [startDate, endDate]);
+    }, [dates, meals]);
 
     return (
         <>
             <h1>Chart</h1>
-            <Chart
-                options={options}
-                series={series}
-                height="450"
-                width="100%"
-            />
+            <Chart options={options} series={series} height="450" width="80%" />
         </>
     );
 }

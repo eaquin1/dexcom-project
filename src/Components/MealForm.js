@@ -13,7 +13,7 @@ const defaultValues = {
     Select: "breakfast",
     ReactDatepicker: Date.now(),
 };
-function MealForm() {
+function MealForm({ mealsHandler }) {
     const { handleSubmit, register, control } = useForm({ defaultValues });
     const INITIAL_STATE = { name: "", time: null, carbCount: 0 };
     const [foods, setFoods] = useState([]);
@@ -26,18 +26,21 @@ function MealForm() {
             name: curMeal.Select,
             time: curMeal.ReactDatepicker,
         }));
+
         const foodArray = foods.map((food) => food.name);
         const saveMeal = {
             name: curMeal.Select,
             time: curMeal.ReactDatepicker,
             carbCount: meals.carbCount,
         };
-
+        //save meal to database
         try {
             await Api.addMeal(saveMeal, foodArray);
         } catch (e) {
             console.log(e);
         }
+        //pass meal to PrivateLanding
+        mealsHandler(saveMeal);
     };
 
     const handleOpen = () => {
@@ -48,7 +51,6 @@ function MealForm() {
         setOpen(false);
     };
     const addItem = (item, itemName) => {
-        //console.log(item); //.totalNutrients.CHOCDF);
         let nutrients = {
             name: itemName,
             serving: `${item.totalWeight} g`,
@@ -92,19 +94,6 @@ function MealForm() {
                         //ref={register}
                     />
                 </section>
-                {/* <Controller
-                    as={DatePicker}
-                    control={control}
-                    valueName="selected"
-                    onChange={([selected]) => selected}
-                    name="datePicker"
-                    defaultValue={Date.now()}
-                    showTimeSelect
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    //dateFormat="h:mm aa"
-                    placeholderText="Choose a mealtime"
-                /> */}
                 <Controller
                     control={control}
                     name="ReactDatepicker"
@@ -137,27 +126,6 @@ function MealForm() {
             >
                 <FoodForm addItem={addItem} />
             </Modal>
-            {/* <input
-                id="name"
-                name="name"
-                value={meal.name}
-                onChange={handleChange}
-            /> */}
-
-            {/* <label htmlFor="qty">Qty:</label>
-            <input
-                type="number"
-                id="qty"
-                name="qty"
-                value={formData.qty}
-                onChange={handleChange}
-            /> */}
-
-            {/* <ul>
-                {foods.map((food) => (
-                    <li key={food.name}>{food.name}</li>
-                ))}
-            </ul> */}
             <Meal foods={foods} carbCount={meals.carbCount} />
         </div>
     );

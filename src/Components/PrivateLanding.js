@@ -4,14 +4,13 @@ import Calendar from "./Calendar";
 import MealForm from "./MealForm";
 import MealList from "./MealList";
 import Api from "../Helpers/api";
-import { parse, parseISO, subHours, subDays } from "date-fns";
+import { parseISO } from "date-fns";
 
 function PrivateLanding() {
-    const yesterday = subDays(Date.now(), 1);
     const [minDate, setMinDate] = useState(null);
     const [maxDate, setMaxDate] = useState(null);
-    const [startDate, setStartDate] = useState(null); //useState(yesterday);
-    const [endDate, setEndDate] = useState(null); //useState(subHours(yesterday, 1));
+    const [dates, setDates] = useState(null);
+    const [meals, setMeals] = useState([]);
 
     // get possible data ranges for a user's account
     useEffect(() => {
@@ -25,14 +24,15 @@ function PrivateLanding() {
         getRange();
     }, []);
 
-    //get the dates from
-    const chosenDateHandler = (start, end) => {
-        setStartDate(start);
-        setEndDate(end);
+    //get the dates from the calendar picker
+    const chosenDateHandler = (dates) => {
+        setDates(dates);
     };
 
-    console.log("* Start Date:", startDate);
-    console.log("* End Date:", endDate);
+    //get the carbs from the MealForm
+    const mealsHandler = (meal) => {
+        setMeals((m) => [...m, meal]);
+    };
 
     return (
         <>
@@ -42,8 +42,8 @@ function PrivateLanding() {
                 minDate={minDate}
                 maxDate={maxDate}
             />
-            <SugarChart startDate={startDate} endDate={endDate} />
-            <MealForm />
+            <SugarChart dates={dates} meals={meals} />
+            <MealForm mealsHandler={mealsHandler} />
             <MealList />
         </>
     );
