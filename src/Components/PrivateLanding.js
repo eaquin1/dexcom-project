@@ -16,7 +16,6 @@ function PrivateLanding() {
     useEffect(() => {
         async function getRange() {
             let range = await Api.getDataRange();
-            console.log(range);
             setMinDate(parseISO(range.start.displayTime)); //use toISO instead?
             setMaxDate(parseISO(range.end.displayTime));
         }

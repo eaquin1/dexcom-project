@@ -11,9 +11,6 @@ import Button from "@material-ui/core/Button";
 function Calendar({ changeDates, minDate, maxDate }) {
     const { handleSubmit, control } = useForm();
 
-    // const [startDate, setStartDate] = useState(null);
-    // const [endDate, setEndDate] = useState(null);
-
     const onSubmit = (data) => {
         let dates = {
             startDate: format(data.StartDatePicker, "yyyy-MM-dd'T'HH:mm:ss"),

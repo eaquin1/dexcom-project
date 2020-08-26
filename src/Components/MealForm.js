@@ -50,6 +50,7 @@ function MealForm({ mealsHandler }) {
     const handleClose = () => {
         setOpen(false);
     };
+
     const addItem = (item, itemName) => {
         let nutrients = {
             name: itemName,
@@ -74,6 +75,9 @@ function MealForm({ mealsHandler }) {
         setFoods((food) => [...foods, { ...nutrients }]);
     };
 
+    // const modal = forwardRef((props, ref) => (
+
+    // ))
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,7 +128,9 @@ function MealForm({ mealsHandler }) {
                 aria-describedby="add-food"
                 // container={() => rootRef.current}
             >
-                <FoodForm addItem={addItem} />
+                <div>
+                    <FoodForm addItem={addItem} submit={handleClose} />
+                </div>
             </Modal>
             <Meal foods={foods} carbCount={meals.carbCount} />
         </div>

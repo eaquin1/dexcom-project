@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FoodForm({ addItem }) {
+function FoodForm({ addItem, submit }) {
     const classes = useStyles();
     const { register, handleSubmit, control, errors } = useForm();
     const [foodItem, setFoodItem] = useState(null);
@@ -35,6 +35,7 @@ function FoodForm({ addItem }) {
 
         addItem(carbRes, foodItem.text);
         setFoodItem(null);
+        submit();
     };
 
     const cancel = () => {
