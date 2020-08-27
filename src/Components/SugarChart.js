@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Api from "../Helpers/api";
-import { format } from "date-fns";
+import { format, closestIndexTo } from "date-fns";
 
-//import "../node_modules/react-vis/dist/style.css";
-
-import {
-    XYPlot,
-    XAxis,
-    YAxis,
-    LineMarkSeries,
-    MarkSeries,
-    VerticalGridLines,
-    HorizontalGridLines,
-    LabelSeries,
-} from "react-vis";
+import { Chart } from "react-google-charts";
 
 function SugarChart({ dates, meals }) {
-    const [sugarData, setSugarData] = useState(null);
+    const [sugarData, setSugarData] = useState([]);
     const [mealData, setMealData] = useState([]);
     // const placeMealTimes = (meal, sugarRes) => {
     //     console.log(meal);
@@ -40,58 +29,103 @@ function SugarChart({ dates, meals }) {
             if (dates !== null) {
                 let sugarRes = await Api.sugars(dates);
 
-                //set the x-axis values from the Dexcom response
-                setSugarData(
-                    sugarRes
-                        .map((sugarTime) => ({
-                            x: new Date(sugarTime.systemTime),
-                            y: sugarTime.value,
-                        }))
-                        .reverse()
-                );
+                let sugarArray = sugarRes.map((s) => [
+                    new Date(s.systemTime),
+                    s.value,
+                    0,
+                ]);
 
-                setMealData(
-                    meals.map((meal) => ({
-                        x: meal.time,
-                        y: meal.carbCount,
-                    }))
-                );
+                const sugar = (sugars) => {
+                    let sugarCopy = [...sugarData];
+                    sugarCopy[0] = ["Time", "Glucose Levels", "Carbs"];
+                    for (let s of sugarArray) {
+                        sugarCopy.push(s);
+                    }
+
+                    return sugarCopy;
+                };
+                console.log(sugarArray);
+                setSugarData((s) => sugar(s));
+
+                //set the x-axis values from the Dexcom response
+                //     setSugarData(
+                //         sugarRes
+                //             .map((sugarTime) => ({
+                //                 x: new Date(sugarTime.systemTime),
+                //                 lineValue: sugarTime.value,
+                //             }))
+                //             .reverse()
+                //     );
+
+                //     setMealData(
+                //         meals.map((meal) => ({
+                //             x: meal.time,
+                //             y: meal.carbCount,
+                //         }))
+                //     );
             }
         }
         getSugars();
-    }, [dates, meals]);
+    }, [dates]);
+
+    useEffect(() => {
+        function setCarbs() {
+            if (meals.length !== 0) {
+                let mealDateIdx;
+                for (let meal of meals) {
+                    if (
+                        meal.time <= sugarData[1][0] &&
+                        meal.time >= sugarData[sugarData.length - 1][0]
+                    ) {
+                        console.log("Type of mealtime", typeof meal.time);
+                        console.log(
+                            "Type of sugar time",
+                            typeof sugarData[2][0]
+                        );
+
+                        let sugarArrayDates = sugarData.map(
+                            (sugarItem) => sugarItem[0]
+                        );
+                        //remove first item in sugarArrayDates: ["Time", "Glucose Levels", "Carbs"];
+                        sugarArrayDates.shift();
+                        console.log("sugarArrayDates", sugarArrayDates);
+                        console.log(
+                            "type of sugararray dates",
+                            typeof sugarArrayDates[0]
+                        );
+                        mealDateIdx = closestIndexTo(
+                            meal.time,
+                            sugarArrayDates
+                        );
+                        console.log("mealdateidx", mealDateIdx);
+                        //copy the sugarData
+                        let sugarCopy = [...sugarData];
+                        sugarCopy[mealDateIdx][2] = meal.carbCount;
+                        setSugarData(sugarCopy);
+                    }
+                }
+            }
+        }
+        setCarbs();
+    }, [meals]);
 
     return (
         <>
-            <h1>Chart</h1>
-
-            <XYPlot
-                height={600}
-                width={600}
-                xType="time"
-                title={"Glucose Levels"}
-            >
-                <VerticalGridLines />
-                <HorizontalGridLines />
-                <XAxis title="Time" />
-                {/* {mealData.length === 0 ? null : (
-                    <YAxis
-                        title="Carbs (g)"
-                        orientation="right"
-                        tickFormat={(meal) => meals[meal].carbCount}
-                    />
-                )} */}
-                <YAxis title='Blood Glucose Levels ("mg/dL")' />
-                <LineMarkSeries
-                    style={{
-                        strokeWidth: "3px",
-                    }}
-                    lineStyle={{ stroke: "red" }}
-                    markStyle={{ stroke: "blue" }}
-                    data={sugarData}
-                />
-                <MarkSeries data={mealData} />
-            </XYPlot>
+            <h1>Chart</h1>{" "}
+            <Chart
+                width={500}
+                height={400}
+                data={sugarData}
+                chartType="ComboChart"
+                loader={<div>Loading Chart</div>}
+                options={{
+                    title: "Blood Glucose Over Time",
+                    vAxis: { title: "Glucose Levels", minValue: 90 },
+                    hAxis: { title: "Time" },
+                    seriesType: "line",
+                    series: { 1: { type: "bars" } },
+                }}
+            />
         </>
     );
 }
