@@ -87,7 +87,7 @@ function SugarChart({ dates, meals }) {
                     data={sugarData}
                 />
 
-                {/* <VerticalBarSeries data={mealData} /> */}
+                <VerticalBarSeries data={mealData} />
             </XYPlot>
         </>
     );
