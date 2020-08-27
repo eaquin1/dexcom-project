@@ -14,6 +14,7 @@ const defaultValues = {
     ReactDatepicker: Date.now(),
 };
 function MealForm({ mealsHandler }) {
+    //eslint-disable-next-line
     const { handleSubmit, register, control } = useForm({ defaultValues });
     const INITIAL_STATE = { name: "", time: null, carbCount: 0 };
     const [foods, setFoods] = useState([]);

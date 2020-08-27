@@ -3,12 +3,13 @@ import Api from "../Helpers/api";
 import { format } from "date-fns";
 
 //import "../node_modules/react-vis/dist/style.css";
+
 import {
     XYPlot,
     XAxis,
     YAxis,
     LineMarkSeries,
-    VerticalBarSeries,
+    MarkSeries,
     VerticalGridLines,
     HorizontalGridLines,
     LabelSeries,
@@ -16,7 +17,7 @@ import {
 
 function SugarChart({ dates, meals }) {
     const [sugarData, setSugarData] = useState(null);
-    const [mealData, setMealData] = useState(null);
+    const [mealData, setMealData] = useState([]);
     // const placeMealTimes = (meal, sugarRes) => {
     //     console.log(meal);
     //     const mealTime = meal[0].time;
@@ -51,7 +52,7 @@ function SugarChart({ dates, meals }) {
 
                 setMealData(
                     meals.map((meal) => ({
-                        x: new Date(meal.time),
+                        x: meal.time,
                         y: meal.carbCount,
                     }))
                 );
@@ -63,6 +64,7 @@ function SugarChart({ dates, meals }) {
     return (
         <>
             <h1>Chart</h1>
+
             <XYPlot
                 height={600}
                 width={600}
@@ -72,11 +74,13 @@ function SugarChart({ dates, meals }) {
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis title="Time" />
-                <YAxis
-                    title="Carbs (g)"
-                    orientation="right"
-                    // tickFormat={(meal) => meals[meal].carbCount}
-                />
+                {/* {mealData.length === 0 ? null : (
+                    <YAxis
+                        title="Carbs (g)"
+                        orientation="right"
+                        tickFormat={(meal) => meals[meal].carbCount}
+                    />
+                )} */}
                 <YAxis title='Blood Glucose Levels ("mg/dL")' />
                 <LineMarkSeries
                     style={{
@@ -86,8 +90,7 @@ function SugarChart({ dates, meals }) {
                     markStyle={{ stroke: "blue" }}
                     data={sugarData}
                 />
-
-                <VerticalBarSeries data={mealData} />
+                <MarkSeries data={mealData} />
             </XYPlot>
         </>
     );
