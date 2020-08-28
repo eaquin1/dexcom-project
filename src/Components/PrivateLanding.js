@@ -23,6 +23,19 @@ function PrivateLanding() {
         getRange();
     }, []);
 
+    // get meals from the database
+    useEffect(() => {
+        async function getMeals() {
+            if (dates !== null) {
+                let savedMeals = await Api.getMealsinTimeRange(dates);
+                console.log(savedMeals);
+                setMeals(savedMeals);
+            }
+        }
+
+        getMeals();
+    }, [dates, meals]);
+
     //get the dates from the calendar picker
     const chosenDateHandler = (dates) => {
         setDates(dates);
@@ -41,9 +54,13 @@ function PrivateLanding() {
                 minDate={minDate}
                 maxDate={maxDate}
             />
-            <SugarChart dates={dates} meals={meals} />
-            <MealForm mealsHandler={mealsHandler} />
-            <MealList />
+            {dates === null ? null : (
+                <>
+                    <SugarChart dates={dates} meals={meals} />
+                    <MealForm mealsHandler={mealsHandler} />
+                    <MealList />
+                </>
+            )}
         </>
     );
 }

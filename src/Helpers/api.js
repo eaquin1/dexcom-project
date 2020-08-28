@@ -52,6 +52,13 @@ class Api {
 
         return res.data;
     }
+
+    static async getMealsinTimeRange(dates) {
+        let res = await instance.get(`/data/mealsbytime`, {
+            params: dates,
+        });
+        return res.data;
+    }
 }
 
 export default Api;
