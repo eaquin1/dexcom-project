@@ -34,14 +34,14 @@ function PrivateLanding() {
         }
 
         getMeals();
-    }, [dates, meals]);
+    }, [dates]);
 
     //get the dates from the calendar picker
     const chosenDateHandler = (dates) => {
         setDates(dates);
     };
 
-    //get the carbs from the MealForm
+    //get the carbs from the MealForm, or the API call to the database
     const mealsHandler = (meal) => {
         setMeals((m) => [...m, meal]);
     };
@@ -56,7 +56,11 @@ function PrivateLanding() {
             />
             {dates === null ? null : (
                 <>
-                    <SugarChart dates={dates} meals={meals} />
+                    <SugarChart
+                        dates={dates}
+                        meals={meals}
+                        mealsHandler={mealsHandler}
+                    />
                     <MealForm mealsHandler={mealsHandler} />
                     <MealList />
                 </>

@@ -4,7 +4,7 @@ import { closestIndexTo } from "date-fns";
 
 import { Chart } from "react-google-charts";
 
-function SugarChart({ dates, meals }) {
+function SugarChart({ dates, meals, mealsHandler }) {
     const [sugarData, setSugarData] = useState([]);
 
     useEffect(() => {
@@ -29,6 +29,10 @@ function SugarChart({ dates, meals }) {
                 };
 
                 setSugarData((s) => sugar(s));
+
+                let savedMeals = await Api.getMealsinTimeRange(dates);
+                console.log(savedMeals);
+                mealsHandler(savedMeals);
             }
         }
         getSugars();
@@ -36,13 +40,16 @@ function SugarChart({ dates, meals }) {
 
     useEffect(() => {
         function setCarbs() {
-            if (meals.length !== 0) {
+            if (meals.length !== 0 && sugarData.length !== 0) {
                 let mealDateIdx;
+
                 for (let meal of meals) {
                     if (
-                        meal.time <= sugarData[1][0] &&
-                        meal.time >= sugarData[sugarData.length - 1][0]
+                        new Date(meal.date) <= sugarData[1][0] &&
+                        new Date(meal.date) >=
+                            sugarData[sugarData.length - 1][0]
                     ) {
+                        console.log("inside setCarbs, mealdate", meal.date);
                         let sugarArrayDates = sugarData.map(
                             (sugarItem) => sugarItem[0]
                         );
@@ -50,13 +57,13 @@ function SugarChart({ dates, meals }) {
                         sugarArrayDates.shift();
 
                         mealDateIdx = closestIndexTo(
-                            meal.time,
+                            new Date(meal.date),
                             sugarArrayDates
                         );
 
                         //copy the sugarData
                         let sugarCopy = [...sugarData];
-                        sugarCopy[mealDateIdx][2] = meal.carbCount;
+                        sugarCopy[mealDateIdx][2] = meal.carb_count;
                         setSugarData(sugarCopy);
                     }
                 }

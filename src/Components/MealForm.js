@@ -16,7 +16,7 @@ const defaultValues = {
 function MealForm({ mealsHandler }) {
     //eslint-disable-next-line
     const { handleSubmit, register, control } = useForm({ defaultValues });
-    const INITIAL_STATE = { name: "", time: null, carbCount: 0 };
+    const INITIAL_STATE = { name: "", time: null, carb_count: 0 };
     const [foods, setFoods] = useState([]);
     const [meals, setMeals] = useState(INITIAL_STATE);
     const [open, setOpen] = useState(false);
@@ -31,8 +31,8 @@ function MealForm({ mealsHandler }) {
         const foodArray = foods.map((food) => food.name);
         const saveMeal = {
             name: curMeal.Select,
-            time: curMeal.ReactDatepicker,
-            carbCount: meals.carbCount,
+            date: curMeal.ReactDatepicker,
+            carb_count: meals.carb_count,
         };
         //save meal to database
         try {
@@ -69,8 +69,8 @@ function MealForm({ mealsHandler }) {
         };
         setMeals((prevMeals) => ({
             ...prevMeals,
-            carbCount: Math.round(
-                meals.carbCount + item.totalNutrients.CHOCDF.quantity
+            carb_count: Math.round(
+                meals.carb_count + item.totalNutrients.CHOCDF.quantity
             ),
         }));
         setFoods((food) => [...foods, { ...nutrients }]);
@@ -133,7 +133,7 @@ function MealForm({ mealsHandler }) {
                     <FoodForm addItem={addItem} submit={handleClose} />
                 </div>
             </Modal>
-            <Meal foods={foods} carbCount={meals.carbCount} />
+            <Meal foods={foods} carbCount={meals.carb_count} />
         </div>
     );
 }
