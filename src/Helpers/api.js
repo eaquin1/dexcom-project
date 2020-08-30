@@ -40,8 +40,6 @@ class Api {
     }
 
     static async addMeal(meal, foods) {
-        console.log("meal being added", meal);
-
         let res = await instance.post(`/data/addmeal`, {
             data: { meal, foods },
         });
