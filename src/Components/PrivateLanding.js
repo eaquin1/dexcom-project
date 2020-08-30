@@ -5,6 +5,7 @@ import MealForm from "./MealForm";
 import MealList from "./MealList";
 import Api from "../Helpers/api";
 import { parseISO } from "date-fns";
+import Grid from "@material-ui/core/Grid";
 
 function PrivateLanding() {
     const [minDate, setMinDate] = useState(null);
@@ -47,7 +48,7 @@ function PrivateLanding() {
     };
 
     return (
-        <>
+        <Grid container>
             <h1>Welcome!</h1>
             <Calendar
                 changeDates={chosenDateHandler}
@@ -65,7 +66,7 @@ function PrivateLanding() {
                     <MealList />
                 </>
             )}
-        </>
+        </Grid>
     );
 }
 
