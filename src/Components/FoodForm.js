@@ -30,7 +30,7 @@ function FoodForm({ addItem, submit }) {
         let carbRes = await Api.carbs({
             quantity: qtyItem.amount,
             measureURI: qtyItem.Select,
-            foodId: foodItem.parsed[0].food.foodId,
+            foodId: foodItem.hints[0].food.foodId,
         });
 
         addItem(carbRes, foodItem.text);
@@ -49,7 +49,10 @@ function FoodForm({ addItem, submit }) {
                 <input
                     id="food"
                     name="food"
-                    ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
+                    ref={register({
+                        required: true,
+                        pattern: /^[A-Za-z\s]+$/i,
+                    })}
                 />
                 {errors.food && "Please enter a food"}
                 <button>Add a food!</button>

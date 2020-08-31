@@ -48,13 +48,15 @@ function PrivateLanding() {
     };
 
     return (
-        <Grid container>
+        <Grid container justify="center">
             <h1>Welcome!</h1>
+
             <Calendar
                 changeDates={chosenDateHandler}
                 minDate={minDate}
                 maxDate={maxDate}
             />
+
             {dates === null ? null : (
                 <>
                     <SugarChart
