@@ -3,17 +3,28 @@ import FoodForm from "./FoodForm";
 import Api from "../Helpers/api";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
-import { Select, MenuItem, Icon } from "@material-ui/core";
+import Select from "@material-ui/core/select";
+import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
+import AddCircle from "@material-ui/icons/AddCircle";
+import IconButton from "@material-ui/core/IconButton";
 import Meal from "./Meal";
-
-//import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import { makeStyles } from "@material-ui/core/styles";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
 const defaultValues = {
     Select: "breakfast",
     ReactDatepicker: Date.now(),
 };
+
+// const useStyles = makeStyles(() => ({
+//     circle: {
+//         backgroundColor: "tomato",
+//         "&:hover": { backgroundColor: "red" },
+//     },
+// }));
 function MealForm({ mealsHandler }) {
+    //const classes = useStyles();
     //eslint-disable-next-line
     const { handleSubmit, register, control } = useForm({ defaultValues });
     const INITIAL_STATE = { name: "", time: null, carb_count: 0 };
@@ -33,15 +44,18 @@ function MealForm({ mealsHandler }) {
             name: curMeal.Select,
             date: curMeal.ReactDatepicker,
             carb_count: meals.carb_count,
+            foods: foodArray,
         };
         //save meal to database
         try {
-            await Api.addMeal(saveMeal, foodArray);
+            await Api.addMeal(saveMeal);
         } catch (e) {
             console.log(e);
         }
         //pass meal to PrivateLanding
         mealsHandler(saveMeal);
+        setMeals(INITIAL_STATE);
+        setFoods([]);
     };
 
     const handleOpen = () => {
@@ -116,9 +130,9 @@ function MealForm({ mealsHandler }) {
                 />
                 <button className="button">Add a new meal!</button>
             </form>
-            <Icon color="secondary" onClick={handleOpen}>
-                add_circle
-            </Icon>
+            <IconButton onClick={handleOpen}>
+                <AddCircle color="secondary" />
+            </IconButton>
             <Modal
                 disablePortal
                 disableEnforceFocus

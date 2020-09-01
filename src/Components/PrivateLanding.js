@@ -49,16 +49,17 @@ function PrivateLanding() {
 
     return (
         <Grid container justify="center">
-            <h1>Welcome!</h1>
-
-            <Calendar
-                changeDates={chosenDateHandler}
-                minDate={minDate}
-                maxDate={maxDate}
-            />
+            <h1>Choose your starting and ending dates</h1>
+            <Grid item>
+                <Calendar
+                    changeDates={chosenDateHandler}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                />
+            </Grid>
 
             {dates === null ? null : (
-                <>
+                <Grid item>
                     <SugarChart
                         dates={dates}
                         meals={meals}
@@ -66,7 +67,7 @@ function PrivateLanding() {
                     />
                     <MealForm mealsHandler={mealsHandler} />
                     <MealList />
-                </>
+                </Grid>
             )}
         </Grid>
     );

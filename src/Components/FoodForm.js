@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import Api from "../Helpers/api";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +61,7 @@ function FoodForm({ addItem, submit }) {
         </div>
     ) : (
         <div className={classes.paper}>
-            <form onSubmit={handleSubmit(onQtySubmit)}>
+            <form>
                 <label htmlFor="Select">Measurement</label>
                 <Controller
                     as={
@@ -85,9 +86,11 @@ function FoodForm({ addItem, submit }) {
                     ref={register({ required: true })}
                 />
                 {errors.amount && "Please enter an amount"}
-                <button>Submit Amount</button>
+                <Button onClick={handleSubmit(onQtySubmit)}>
+                    Submit Amount
+                </Button>
             </form>
-            <button onClick={cancel}>Cancel</button>
+            <Button onClick={cancel}>Cancel</Button>
         </div>
     );
 }

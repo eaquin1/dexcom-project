@@ -39,9 +39,9 @@ class Api {
         return res.data;
     }
 
-    static async addMeal(meal, foods) {
+    static async addMeal(meal) {
         let res = await instance.post(`/data/addmeal`, {
-            data: { meal, foods },
+            data: { meal },
         });
 
         return res;
