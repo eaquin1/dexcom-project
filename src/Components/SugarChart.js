@@ -30,47 +30,76 @@ function SugarChart({ dates, meals, mealsHandler }) {
 
                 setSugarData((s) => sugar(s));
 
-                let savedMeals = await Api.getMealsinTimeRange(dates);
-                console.log(savedMeals);
-                mealsHandler(savedMeals);
-            }
-        }
-        getSugars();
-    }, [dates]);
+                // let savedMeals = await Api.getMealsinTimeRange(dates);
+                // console.log(savedMeals);
+                // mealsHandler(savedMeals);
+                console.log(meals);
+                if (meals.length !== 0 && sugarData.length !== 0) {
+                    let mealDateIdx;
 
-    useEffect(() => {
-        function setCarbs() {
-            if (meals.length !== 0 && sugarData.length !== 0) {
-                let mealDateIdx;
+                    for (let meal of meals) {
+                        if (
+                            new Date(meal.date) <= sugarData[1][0] &&
+                            new Date(meal.date) >=
+                                sugarData[sugarData.length - 1][0]
+                        ) {
+                            console.log("inside setCarbs, mealdate", meal.date);
+                            let sugarArrayDates = sugarData.map(
+                                (sugarItem) => sugarItem[0]
+                            );
+                            //remove first item in sugarArrayDates: ["Time", "Glucose Levels", "Carbs"];
+                            sugarArrayDates.shift();
 
-                for (let meal of meals) {
-                    if (
-                        new Date(meal.date) <= sugarData[1][0] &&
-                        new Date(meal.date) >=
-                            sugarData[sugarData.length - 1][0]
-                    ) {
-                        console.log("inside setCarbs, mealdate", meal.date);
-                        let sugarArrayDates = sugarData.map(
-                            (sugarItem) => sugarItem[0]
-                        );
-                        //remove first item in sugarArrayDates: ["Time", "Glucose Levels", "Carbs"];
-                        sugarArrayDates.shift();
+                            mealDateIdx = closestIndexTo(
+                                new Date(meal.date),
+                                sugarArrayDates
+                            );
 
-                        mealDateIdx = closestIndexTo(
-                            new Date(meal.date),
-                            sugarArrayDates
-                        );
-
-                        //copy the sugarData
-                        let sugarCopy = [...sugarData];
-                        sugarCopy[mealDateIdx][2] = meal.carb_count;
-                        setSugarData(sugarCopy);
+                            //copy the sugarData
+                            let sugarCopy = [...sugarData];
+                            sugarCopy[mealDateIdx][2] = meal.carb_count;
+                            setSugarData(sugarCopy);
+                        }
                     }
                 }
             }
         }
-        setCarbs();
-    }, [meals]);
+        getSugars();
+    }, [dates, meals]);
+
+    // useEffect(() => {
+    //     function setCarbs() {
+    //         if (meals.length !== 0 && sugarData.length !== 0) {
+    //             let mealDateIdx;
+
+    //             for (let meal of meals) {
+    //                 if (
+    //                     new Date(meal.date) <= sugarData[1][0] &&
+    //                     new Date(meal.date) >=
+    //                         sugarData[sugarData.length - 1][0]
+    //                 ) {
+    //                     console.log("inside setCarbs, mealdate", meal.date);
+    //                     let sugarArrayDates = sugarData.map(
+    //                         (sugarItem) => sugarItem[0]
+    //                     );
+    //                     //remove first item in sugarArrayDates: ["Time", "Glucose Levels", "Carbs"];
+    //                     sugarArrayDates.shift();
+
+    //                     mealDateIdx = closestIndexTo(
+    //                         new Date(meal.date),
+    //                         sugarArrayDates
+    //                     );
+
+    //                     //copy the sugarData
+    //                     let sugarCopy = [...sugarData];
+    //                     sugarCopy[mealDateIdx][2] = meal.carb_count;
+    //                     setSugarData(sugarCopy);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     setCarbs();
+    // }, [meals]);
 
     return (
         <>
