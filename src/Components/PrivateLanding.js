@@ -50,7 +50,7 @@ function PrivateLanding() {
     return (
         <Grid container justify="center">
             <h1>Choose your starting and ending dates</h1>
-            <Grid item>
+            <Grid container justify="center">
                 <Calendar
                     changeDates={chosenDateHandler}
                     minDate={minDate}
@@ -59,7 +59,7 @@ function PrivateLanding() {
             </Grid>
 
             {dates === null ? null : (
-                <Grid item>
+                <Grid container justify="center">
                     <SugarChart
                         dates={dates}
                         meals={meals}
