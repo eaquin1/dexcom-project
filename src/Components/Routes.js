@@ -3,16 +3,17 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import PrivateLanding from "./PrivateLanding";
 import MealList from "./MealList";
 import Landing from "./Landing";
+import PrivateRoute from "./PrivateRoute";
 
 function Routes() {
     return (
         <Switch>
-            <Route exact path="/home">
+            <PrivateRoute exact path="/home">
                 <PrivateLanding />
-            </Route>
-            <Route exact path="/meals">
+            </PrivateRoute>
+            <PrivateRoute exact path="/meals">
                 <MealList />
-            </Route>
+            </PrivateRoute>
             <Route exact path="/">
                 <Landing />
             </Route>
