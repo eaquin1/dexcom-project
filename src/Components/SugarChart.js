@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-function SugarChart({ sugarData, dates, meals, mealsHandler }) {
+function SugarChart({ sugarData }) {
     return (
         <>
             <h1>Chart</h1>{" "}
