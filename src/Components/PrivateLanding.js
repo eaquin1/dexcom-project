@@ -25,19 +25,6 @@ function PrivateLanding() {
         getRange();
     }, []);
 
-    // get meals from the database
-    useEffect(() => {
-        async function getMeals() {
-            if (dates !== null) {
-                let savedMeals = await Api.getMealsinTimeRange(dates);
-                console.log(savedMeals);
-                setMeals(savedMeals);
-            }
-        }
-
-        getMeals();
-    }, [dates, meals]);
-
     //get glucose values for the chosen date range
     useEffect(() => {
         async function getSugars() {
@@ -62,9 +49,9 @@ function PrivateLanding() {
 
                 setSugarData((s) => sugar(s));
 
-                // let savedMeals = await Api.getMealsinTimeRange(dates);
-                // console.log(savedMeals);
-                // mealsHandler(savedMeals);
+                let savedMeals = await Api.getMealsinTimeRange(dates);
+                console.log(savedMeals);
+                setMeals(savedMeals);
             }
         }
         getSugars();
@@ -73,11 +60,9 @@ function PrivateLanding() {
     //add the meal times to the chart
     useEffect(() => {
         function setMealTimes() {
-            console.log("Does meals have length?", meals);
-            console.log("Does sugarData have length?", sugarData);
             if (meals.length !== 0 && sugarData.length !== 0) {
                 let mealDateIdx;
-
+                let sugarCopy = [];
                 for (let meal of meals) {
                     if (
                         new Date(meal.date) <= sugarData[1][0] &&
@@ -97,11 +82,11 @@ function PrivateLanding() {
                         );
 
                         //copy the sugarData
-                        let sugarCopy = [...sugarData];
+                        sugarCopy = [...sugarData];
                         sugarCopy[mealDateIdx][2] = meal.carb_count;
-                        setSugarData(sugarCopy);
                     }
                 }
+                setSugarData(sugarCopy);
             }
         }
         setMealTimes();

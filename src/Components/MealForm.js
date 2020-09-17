@@ -17,14 +17,35 @@ const defaultValues = {
     ReactDatepicker: Date.now(),
 };
 
-// const useStyles = makeStyles(() => ({
-//     circle: {
-//         backgroundColor: "tomato",
-//         "&:hover": { backgroundColor: "red" },
-//     },
-// }));
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: 300,
+        flexGrow: 1,
+        minWidth: 300,
+        transform: "translateZ(0)",
+        // The position fixed scoping doesn't work in IE 11.
+        // Disable this demo to preserve the others.
+        "@media all and (-ms-high-contrast: none)": {
+            display: "none",
+        },
+    },
+    modal: {
+        display: "flex",
+        padding: theme.spacing(1),
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    paper: {
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid #000",
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
+
 function MealForm({ mealsHandler }) {
-    //const classes = useStyles();
+    const classes = useStyles();
     //eslint-disable-next-line
     const { handleSubmit, register, control } = useForm({ defaultValues });
     const INITIAL_STATE = { name: "", time: null, carb_count: 0 };
@@ -96,7 +117,7 @@ function MealForm({ mealsHandler }) {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <section>
+                <section classes={classes.root}>
                     <label>Meal</label>
                     <Controller
                         as={
@@ -141,7 +162,7 @@ function MealForm({ mealsHandler }) {
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="add-food"
-                // container={() => rootRef.current}
+                className={classes.modal}
             >
                 <div>
                     <FoodForm addItem={addItem} submit={handleClose} />

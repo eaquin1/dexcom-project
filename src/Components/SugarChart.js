@@ -5,7 +5,7 @@ import { closestIndexTo } from "date-fns";
 import { Chart } from "react-google-charts";
 
 function SugarChart({ sugarData, dates, meals, mealsHandler }) {
-    // const [sugarData, setSugarData] = useState([]);
+    //const [data, setData] = useState([]);
 
     // useEffect(() => {
     //     async function getSugars() {
@@ -100,6 +100,34 @@ function SugarChart({ sugarData, dates, meals, mealsHandler }) {
     //     }
     //     setCarbs();
     // }, [meals]);
+    // let data = [];
+    // if (meals.length !== 0 && sugarData.length !== 0) {
+    //     let mealDateIdx;
+    //     let sugarCopy;
+    //     for (let meal of meals) {
+    //         if (
+    //             new Date(meal.date) <= sugarData[1][0] &&
+    //             new Date(meal.date) >= sugarData[sugarData.length - 1][0]
+    //         ) {
+    //             console.log("inside setCarbs, mealdate", meal.date);
+    //             let sugarArrayDates = sugarData.map(
+    //                 (sugarItem) => sugarItem[0]
+    //             );
+    //             //remove first item in sugarArrayDates: ["Time", "Glucose Levels", "Carbs"];
+    //             sugarArrayDates.shift();
+
+    //             mealDateIdx = closestIndexTo(
+    //                 new Date(meal.date),
+    //                 sugarArrayDates
+    //             );
+
+    //             //copy the sugarData
+    //             let sugarCopy = [...sugarData];
+    //             sugarCopy[mealDateIdx][2] = meal.carb_count;
+    //         }
+    //     }
+    //     data = sugarCopy;
+    // }
 
     return (
         <>
