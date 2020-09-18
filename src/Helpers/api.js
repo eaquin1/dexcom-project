@@ -59,6 +59,11 @@ class Api {
         });
         return res.data;
     }
+
+    static async ensureUser() {
+        let res = await instance.get(`/auth/user`);
+        return res.data;
+    }
 }
 
 export default Api;
