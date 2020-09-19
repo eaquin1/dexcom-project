@@ -1,10 +1,16 @@
 import React from "react";
 import { Chart } from "react-google-charts";
-
-function SugarChart({ sugarData }) {
+import { format } from "date-fns";
+function SugarChart({ sugarData, dates }) {
     return (
         <>
-            <h1>Chart</h1>{" "}
+            <h1>{`Glucose Levels from ${format(
+                new Date(dates.startDate),
+                "MM/dd/yyyy h:mm aaaa"
+            )} to ${format(
+                new Date(dates.endDate),
+                "MM/dd/yyyy h:mm aaaa"
+            )}`}</h1>{" "}
             <Chart
                 width={"100%"}
                 height={"500px"}

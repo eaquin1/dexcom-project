@@ -9,7 +9,7 @@ import Api from "./Helpers/api";
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [userId, setUserId] = useState(null);
-
+    const [cookie, setCookie] = useState(document.cookie);
     useEffect(() => {
         const getUser = async () => {
             let user = await Api.ensureUser();
@@ -20,6 +20,11 @@ function App() {
         getUser();
     }, []);
 
+    const handleLogOut = async () => {
+        await Api.logoutUser();
+        setUserId(null);
+        setCookie(null);
+    };
     if (!infoLoaded) {
         return (
             <ClipLoader
@@ -34,7 +39,7 @@ function App() {
     }
     return (
         <BrowserRouter>
-            <Nav user={userId} />
+            <Nav user={cookie} logout={handleLogOut} />
             <Routes user={userId} />
         </BrowserRouter>
     );

@@ -115,7 +115,7 @@ function PrivateLanding() {
 
             {dates === null ? null : (
                 <Grid container justify="center">
-                    <SugarChart sugarData={sugarData} />
+                    <SugarChart sugarData={sugarData} dates={dates} />
                     <MealForm mealsHandler={mealsHandler} />
                     <MealList />
                 </Grid>

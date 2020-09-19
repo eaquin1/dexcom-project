@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
 function Landing() {
     return (
@@ -37,7 +38,9 @@ function Landing() {
                     JDRF
                 </a>
             </p>
-            <a href="http://localhost:5000/auth/dexcom/">Log into Dexcom</a>
+            <Button href="http://localhost:5000/auth/dexcom/">
+                Log into Dexcom
+            </Button>
         </div>
     );
 }

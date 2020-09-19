@@ -64,6 +64,10 @@ class Api {
         let res = await instance.get(`/auth/user`);
         return res.data;
     }
+
+    static async logoutUser() {
+        await instance.get(`auth/logout`);
+    }
 }
 
 export default Api;

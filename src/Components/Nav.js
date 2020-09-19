@@ -4,7 +4,27 @@ import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 
-function Nav() {
+function Nav({ user, logout }) {
+    const loggedIn = (
+        <>
+            <Button color="inherit" onClick={logout}>
+                Logout
+            </Button>
+
+            <Button color="inherit" href="/meals">
+                Meals
+            </Button>
+            <Button color="inherit" href="/home">
+                Home
+            </Button>
+        </>
+    );
+
+    const loggedOut = (
+        <Button color="inherit" href="http://localhost:5000/auth/dexcom/">
+            Login
+        </Button>
+    );
     return (
         <div>
             <AppBar position="static">
@@ -14,7 +34,7 @@ function Nav() {
                         color="inherit"
                         aria-label="menu"
                     ></IconButton>
-                    <Button color="inherit">Login</Button>
+                    {user ? loggedIn : loggedOut}
                 </Toolbar>
             </AppBar>
         </div>
