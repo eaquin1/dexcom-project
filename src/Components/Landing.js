@@ -39,7 +39,7 @@ function Landing() {
                     JDRF
                 </a>
             </p>
-            <Button href={BASE_URL}>Log into Dexcom</Button>
+            <Button href={`${BASE_URL}/auth/dexcom`}>Log into Dexcom</Button>
         </div>
     );
 }
