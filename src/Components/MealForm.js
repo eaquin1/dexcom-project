@@ -111,9 +111,6 @@ function MealForm({ mealsHandler }) {
         setFoods((food) => [...foods, { ...nutrients }]);
     };
 
-    // const modal = forwardRef((props, ref) => (
-
-    // ))
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -130,8 +127,6 @@ function MealForm({ mealsHandler }) {
                         }
                         name="Select"
                         control={control}
-                        //defaultValue="breakfast"
-                        //ref={register}
                     />
                 </section>
                 <Controller

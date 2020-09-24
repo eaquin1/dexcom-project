@@ -15,12 +15,6 @@ class Api {
         return res.data.egvs;
     }
 
-    static async events() {
-        let res = await instance.get(`/data/events`);
-
-        return res.data.events;
-    }
-
     static async foods(item) {
         let res = await instance.get(`/data/foods`, {
             params: item,

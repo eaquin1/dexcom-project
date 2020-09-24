@@ -10,6 +10,7 @@ function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [userId, setUserId] = useState(null);
     const [cookie, setCookie] = useState(document.cookie);
+
     useEffect(() => {
         const getUser = async () => {
             let user = await Api.ensureUser();
@@ -25,6 +26,7 @@ function App() {
         setUserId(null);
         setCookie(null);
     };
+
     if (!infoLoaded) {
         return (
             <ClipLoader

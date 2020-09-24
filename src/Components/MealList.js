@@ -38,7 +38,6 @@ function MealList() {
         setAllMeals(deleted);
     };
 
-    console.log("allMeals", allMeals);
     return allMeals.length === 0 ? (
         <h1>No meals added yet </h1>
     ) : (

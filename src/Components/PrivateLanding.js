@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import SugarChart from "./SugarChart";
 import Calendar from "./Calendar";
 import MealForm from "./MealForm";
-import MealList from "./MealList";
 import Api from "../Helpers/api";
 import { parseISO, closestIndexTo } from "date-fns";
 import Grid from "@material-ui/core/Grid";
@@ -30,7 +29,7 @@ function PrivateLanding() {
         async function getSugars() {
             if (dates !== null) {
                 let sugarRes = await Api.sugars(dates);
-                console.log(sugarRes);
+
                 let sugarArray = sugarRes.map((s) => [
                     new Date(s.systemTime),
                     s.value,
@@ -50,7 +49,7 @@ function PrivateLanding() {
                 setSugarData((s) => sugar(s));
 
                 let savedMeals = await Api.getMealsinTimeRange(dates);
-                console.log(savedMeals);
+
                 setMeals(savedMeals);
             }
         }
@@ -69,7 +68,6 @@ function PrivateLanding() {
                         new Date(meal.date) >=
                             sugarData[sugarData.length - 1][0]
                     ) {
-                        console.log("inside setCarbs, mealdate", meal.date);
                         let sugarArrayDates = sugarData.map(
                             (sugarItem) => sugarItem[0]
                         );
@@ -117,7 +115,6 @@ function PrivateLanding() {
                 <Grid container justify="center">
                     <SugarChart sugarData={sugarData} dates={dates} />
                     <MealForm mealsHandler={mealsHandler} />
-                    <MealList />
                 </Grid>
             )}
         </Grid>
