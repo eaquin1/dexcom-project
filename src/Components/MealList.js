@@ -9,6 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import { format } from "date-fns";
 
 const useStyles = makeStyles({
     table: {
@@ -23,7 +24,10 @@ function MealList() {
     useEffect(() => {
         async function getAllMeals() {
             let resp = await Api.getAllUserMeals();
-            setAllMeals(resp);
+            let sortedByDate = resp.sort(
+                (a, b) => new Date(a.date) - new Date(b.date)
+            );
+            setAllMeals(sortedByDate);
         }
         getAllMeals();
     }, []);
@@ -45,7 +49,10 @@ function MealList() {
                     {allMeals.map((row) => (
                         <TableRow key={row.id}>
                             <TableCell component="th" scope="row">
-                                {row.date}
+                                {format(
+                                    new Date(row.date),
+                                    "MM/dd/yyyy h:mm aaaa"
+                                )}
                             </TableCell>
                             <TableCell align="right">
                                 {row.foods.map((food) => (
