@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "https://localhost:5000";
 
 function Landing() {
     return (
@@ -38,9 +39,7 @@ function Landing() {
                     JDRF
                 </a>
             </p>
-            <Button href="http://localhost:5000/auth/dexcom/">
-                Log into Dexcom
-            </Button>
+            <Button href={BASE_URL}>Log into Dexcom</Button>
         </div>
     );
 }
