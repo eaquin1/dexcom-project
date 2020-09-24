@@ -3,7 +3,7 @@ import FoodForm from "./FoodForm";
 import Api from "../Helpers/api";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
-import Select from "@material-ui/core/select";
+import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
 import AddCircle from "@material-ui/icons/AddCircle";
