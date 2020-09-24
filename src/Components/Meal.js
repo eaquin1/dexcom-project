@@ -9,6 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TableFooter from "@material-ui/core/TableFooter";
+
 const useStyles = makeStyles({
     table: {
         minWidth: 650,
@@ -18,9 +19,6 @@ const useStyles = makeStyles({
 function Meal({ foods, carbCount }) {
     const classes = useStyles();
 
-    // const sum = (foods) => {
-    //     return foods.reduce((accum, val) => accum + +val.carbs);
-    // };
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="meal table">

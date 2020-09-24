@@ -1,6 +1,73 @@
-import React from "react";
-function MealList() {
-    return <h1>MealList</h1>;
-}
+import React, { useEffect, useState } from "react";
+import Api from "../Helpers/api";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 
+const useStyles = makeStyles({
+    table: {
+        minWidth: 650,
+    },
+});
+
+function MealList() {
+    const [allMeals, setAllMeals] = useState([]);
+    const classes = useStyles();
+
+    useEffect(() => {
+        async function getAllMeals() {
+            let resp = await Api.getAllUserMeals();
+            setAllMeals(resp);
+        }
+        getAllMeals();
+    }, []);
+
+    console.log("allMeals", allMeals);
+    return allMeals.length === 0 ? (
+        <h1>No meals added yet </h1>
+    ) : (
+        <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="meal table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Date</TableCell>
+                        <TableCell align="right">Foods</TableCell>
+                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {allMeals.map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell component="th" scope="row">
+                                {row.date}
+                            </TableCell>
+                            <TableCell align="right">
+                                {row.foods.map((food) => (
+                                    <p key={food}>{food}</p>
+                                ))}
+                            </TableCell>
+                            <TableCell align="right">
+                                {row.carb_count} grams
+                            </TableCell>
+                            <TableCell align="right">
+                                <Button key={row.id}>Delete</Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+                {/* <TableFooter>
+                    <TableRow>
+                        <TableCell align="right">{`${carbCount} g`}</TableCell>
+                    </TableRow>
+                </TableFooter> */}
+            </Table>
+        </TableContainer>
+    );
+}
 export default MealList;

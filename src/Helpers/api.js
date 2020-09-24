@@ -60,6 +60,11 @@ class Api {
         return res.data;
     }
 
+    static async getAllUserMeals() {
+        let res = await instance.get(`/data/mealsbyuser`);
+        return res.data;
+    }
+
     static async ensureUser() {
         let res = await instance.get(`/auth/user`);
         return res.data;
