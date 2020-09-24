@@ -32,6 +32,12 @@ function MealList() {
         getAllMeals();
     }, []);
 
+    const deleteMeal = async (id) => {
+        await Api.deleteMeal(id);
+        const deleted = allMeals.filter((meal) => id !== meal.id);
+        setAllMeals(deleted);
+    };
+
     console.log("allMeals", allMeals);
     return allMeals.length === 0 ? (
         <h1>No meals added yet </h1>
@@ -63,7 +69,12 @@ function MealList() {
                                 {row.carb_count} grams
                             </TableCell>
                             <TableCell align="right">
-                                <Button key={row.id}>Delete</Button>
+                                <Button
+                                    key={row.id}
+                                    onClick={() => deleteMeal(row.id)}
+                                >
+                                    Delete
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

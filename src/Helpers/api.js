@@ -65,6 +65,11 @@ class Api {
         return res.data;
     }
 
+    static async deleteMeal(id) {
+        let res = await instance.delete(`/data/deletemeal/${id}`);
+        return res.data;
+    }
+
     static async ensureUser() {
         let res = await instance.get(`/auth/user`);
         return res.data;
