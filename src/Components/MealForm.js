@@ -113,6 +113,7 @@ function MealForm({ mealsHandler }) {
 
     return (
         <div>
+            <h1>Add a Meal</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <section classes={classes.root}>
                     <label>Meal</label>

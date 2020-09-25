@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-const BASE_URL = process.env.REACT_APP_BASE_URL || "https://localhost:5000";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 function Landing() {
     return (
