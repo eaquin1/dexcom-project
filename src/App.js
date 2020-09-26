@@ -9,7 +9,6 @@ import Api from "./Helpers/api";
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [userId, setUserId] = useState(null);
-    const [cookie, setCookie] = useState(document.cookie);
 
     useEffect(() => {
         const getUser = async () => {
@@ -24,7 +23,6 @@ function App() {
     const handleLogOut = async () => {
         await Api.logoutUser();
         setUserId(null);
-        setCookie(null);
     };
 
     if (!infoLoaded) {
@@ -41,7 +39,7 @@ function App() {
     }
     return (
         <BrowserRouter>
-            <Nav user={cookie} logout={handleLogOut} />
+            <Nav user={userId} logout={handleLogOut} />
             <Routes user={userId} />
         </BrowserRouter>
     );

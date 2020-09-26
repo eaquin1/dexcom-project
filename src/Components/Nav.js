@@ -21,7 +21,7 @@ function Nav({ user, logout }) {
     );
 
     const loggedOut = (
-        <Button color="inherit" href={BASE_URL}>
+        <Button color="inherit" href={`${BASE_URL}/auth/dexcom`}>
             Login
         </Button>
     );
