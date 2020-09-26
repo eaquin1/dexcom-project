@@ -5,13 +5,13 @@ import MealList from "./MealList";
 import Landing from "./Landing";
 import PrivateRoute from "./PrivateRoute";
 
-function Routes({ user }) {
+function Routes() {
     return (
         <Switch>
-            <PrivateRoute exact path="/home" user={user}>
+            <PrivateRoute exact path="/home">
                 <PrivateLanding />
             </PrivateRoute>
-            <PrivateRoute exact path="/meals" user={user}>
+            <PrivateRoute exact path="/meals">
                 <MealList />
             </PrivateRoute>
             <Route exact path="/">
