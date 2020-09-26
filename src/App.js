@@ -7,40 +7,40 @@ import Routes from "./Components/Routes";
 import Api from "./Helpers/api";
 
 function App() {
-    // const [infoLoaded, setInfoLoaded] = useState(false);
-    // const [userId, setUserId] = useState(null);
+    const [infoLoaded, setInfoLoaded] = useState(false);
+    const [userId, setUserId] = useState(null);
 
-    // useEffect(() => {
-    //     const getUser = async () => {
-    //         let user = await Api.ensureUser();
+    useEffect(() => {
+        const getUser = async () => {
+            let user = await Api.ensureUser();
 
-    //         setUserId(user);
-    //         setInfoLoaded(true);
-    //     };
-    //     getUser();
-    // }, []);
+            setUserId(user);
+            setInfoLoaded(true);
+        };
+        getUser();
+    }, []);
 
-    // const handleLogOut = async () => {
-    //     await Api.logoutUser();
-    //     setUserId(null);
-    // };
+    const handleLogOut = async () => {
+        await Api.logoutUser();
+        setUserId(null);
+    };
 
-    // if (!infoLoaded) {
-    //     return (
-    //         <ClipLoader
-    //             size={150}
-    //             color="#123abc"
-    //             css={{
-    //                 display: "block",
-    //                 margin: "auto",
-    //             }}
-    //         />
-    //     );
-    // }
+    if (!infoLoaded) {
+        return (
+            <ClipLoader
+                size={150}
+                color="#123abc"
+                css={{
+                    display: "block",
+                    margin: "auto",
+                }}
+            />
+        );
+    }
     return (
         <BrowserRouter>
-            <Nav />
-            <Routes />
+            <Nav user={userId} logout={handleLogOut} />
+            <Routes user={userId} />
         </BrowserRouter>
     );
 }
