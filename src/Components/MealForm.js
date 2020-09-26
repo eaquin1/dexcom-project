@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FoodForm from "./FoodForm";
+import Meal from "./Meal";
 import Api from "../Helpers/api";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
@@ -8,7 +9,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
 import AddCircle from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
-import Meal from "./Meal";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+
 import { makeStyles } from "@material-ui/core/styles";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
@@ -114,9 +117,9 @@ function MealForm({ mealsHandler }) {
     return (
         <div>
             <h1>Add a Meal</h1>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <section classes={classes.root}>
-                    <label>Meal</label>
                     <Controller
                         as={
                             <Select>
@@ -145,11 +148,14 @@ function MealForm({ mealsHandler }) {
                         />
                     )}
                 />
+                <FormLabel>Add a Food</FormLabel>
+                <IconButton onClick={handleOpen}>
+                    <AddCircle color="secondary" />
+                </IconButton>
+                <Meal foods={foods} carbCount={meals.carb_count} />
                 <button className="button">Add a new meal!</button>
             </form>
-            <IconButton onClick={handleOpen}>
-                <AddCircle color="secondary" />
-            </IconButton>
+
             <Modal
                 disablePortal
                 disableEnforceFocus
@@ -164,7 +170,6 @@ function MealForm({ mealsHandler }) {
                     <FoodForm addItem={addItem} submit={handleClose} />
                 </div>
             </Modal>
-            <Meal foods={foods} carbCount={meals.carb_count} />
         </div>
     );
 }
