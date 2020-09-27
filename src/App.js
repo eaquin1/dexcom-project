@@ -13,7 +13,7 @@ function App() {
     useEffect(() => {
         const getUser = async () => {
             let user = await Api.ensureUser();
-
+            console.log(user);
             setUserId(user);
             setInfoLoaded(true);
         };

@@ -99,26 +99,25 @@ function Calendar({ changeDates, minDate, maxDate }) {
                             />
                         )}
                     />
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            onClick={handleSubmit(onSubmit)}
-                        >
-                            Submit
-                        </Button>
-                    </Grid>
                 </Grid>
-                <Snackbar
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={handleClose}
+                <Grid
+                    container
+                    style={{ textAlign: "center", display: "block" }}
                 >
-                    <Alert onClose={handleClose} severity="error">
-                        Please enter a starting and ending date less than 90
-                        days apart
-                    </Alert>
-                </Snackbar>
+                    <Button
+                        variant="contained"
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        Submit
+                    </Button>
+                </Grid>
             </Grid>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    Please enter a starting and ending date less than 90 days
+                    apart
+                </Alert>
+            </Snackbar>
         </form>
     );
 }
