@@ -12,10 +12,14 @@ function App() {
 
     useEffect(() => {
         const getUser = async () => {
-            let user = await Api.ensureUser();
-            console.log(user);
-            setUserId(user);
-            setInfoLoaded(true);
+            // let user = await Api.ensureUser();
+            // console.log(user);
+            // setUserId(user);
+            let user = document.cookie;
+            if (user !== null) {
+                setInfoLoaded(true);
+                setUserId(user);
+            }
         };
         getUser();
     }, []);
