@@ -4,16 +4,21 @@ import Api from "../Helpers/api";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     paper: {
         position: "absolute",
         width: 400,
+        height: 100,
         backgroundColor: theme.palette.background.paper,
         border: "2px solid #000",
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+    },
+    itemContainer: {
+        alignItems: "center",
     },
 }));
 
@@ -44,21 +49,23 @@ function FoodForm({ addItem, submit }) {
     };
 
     return foodItem === null ? (
-        <div className={classes.paper}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor="food">Food</label>
-                <input
-                    id="food"
-                    name="food"
-                    ref={register({
-                        required: true,
-                        pattern: /^[A-Za-z\s]+$/i,
-                    })}
-                />
-                {errors.food && "Please enter a food"}
-                <button>Add a food!</button>
-            </form>
-        </div>
+        <Grid container className={classes.paper}>
+            <Grid item>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <label htmlFor="food">Food</label>
+                    <input
+                        id="food"
+                        name="food"
+                        ref={register({
+                            required: true,
+                            pattern: /^[A-Za-z\s]+$/i,
+                        })}
+                    />
+                    {errors.food && "Please enter a food"}
+                    <button>Add a food!</button>
+                </form>
+            </Grid>
+        </Grid>
     ) : (
         <div className={classes.paper}>
             <form>

@@ -1,9 +1,18 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 import { format } from "date-fns";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    mainContainer: {
+        padding: "25px",
+    },
+}));
 function SugarChart({ sugarData, dates }) {
+    const classes = useStyles();
     return (
-        <>
+        <Grid container className={classes.mainContainer}>
             <h1>{`Glucose Levels from ${format(
                 new Date(dates.startDate),
                 "MM/dd/yyyy h:mm aaaa"
@@ -31,7 +40,7 @@ function SugarChart({ sugarData, dates }) {
                     },
                 }}
             />
-        </>
+        </Grid>
     );
 }
 

@@ -15,6 +15,10 @@ Demo with sandbox data: https://t1d-sugar-tracker.herokuapp.com
 
 Technologies used:
 
+-   React
+-   Express
 -   [Passport.js](http://www.passportjs.org)
 -   Redis
 -   Postgres-Node
+-   react-hook-form
+-   Google Charts

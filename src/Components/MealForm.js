@@ -8,9 +8,10 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
 import AddCircle from "@material-ui/icons/AddCircle";
-import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Chip from "@material-ui/core/Chip";
 
 import { makeStyles } from "@material-ui/core/styles";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
@@ -33,17 +34,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     modal: {
+        position: "absolute",
         display: "flex",
+        top: "50%",
+        left: "50%",
+        transform: `translate(-50%, -50%)`,
         padding: theme.spacing(1),
         alignItems: "center",
         justifyContent: "center",
-    },
-    paper: {
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        border: "2px solid #000",
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
     },
 }));
 
@@ -119,7 +117,7 @@ function MealForm({ mealsHandler }) {
             <h1>Add a Meal</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <section classes={classes.root}>
+                <section className={classes.root}>
                     <Controller
                         as={
                             <Select>
@@ -148,10 +146,14 @@ function MealForm({ mealsHandler }) {
                         />
                     )}
                 />
-                <FormLabel>Add a Food</FormLabel>
-                <IconButton onClick={handleOpen}>
-                    <AddCircle color="secondary" />
-                </IconButton>
+
+                <Chip
+                    label="Add a Food"
+                    onClick={handleOpen}
+                    icon={<AddCircle />}
+                    color="secondary"
+                />
+
                 <Meal foods={foods} carbCount={meals.carb_count} />
                 <button className="button">Add a new meal!</button>
             </form>
@@ -164,10 +166,13 @@ function MealForm({ mealsHandler }) {
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="add-food"
-                className={classes.modal}
             >
-                <div>
-                    <FoodForm addItem={addItem} submit={handleClose} />
+                <div className={classes.modal}>
+                    <FoodForm
+                        // className={classes.paper}
+                        addItem={addItem}
+                        submit={handleClose}
+                    />
                 </div>
             </Modal>
         </div>

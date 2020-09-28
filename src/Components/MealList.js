@@ -78,11 +78,6 @@ function MealList() {
                         </TableRow>
                     ))}
                 </TableBody>
-                {/* <TableFooter>
-                    <TableRow>
-                        <TableCell align="right">{`${carbCount} g`}</TableCell>
-                    </TableRow>
-                </TableFooter> */}
             </Table>
         </TableContainer>
     );
