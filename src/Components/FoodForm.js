@@ -51,7 +51,7 @@ function FoodForm({ addItem, submit }) {
     return foodItem === null ? (
         <Grid container className={classes.paper}>
             <Grid item>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form>
                     <label htmlFor="food">Food</label>
                     <input
                         id="food"
@@ -62,7 +62,9 @@ function FoodForm({ addItem, submit }) {
                         })}
                     />
                     {errors.food && "Please enter a food"}
-                    <button>Add a food!</button>
+                    <Button onClick={handleSubmit(onSubmit)}>
+                        Add a food!
+                    </Button>
                 </form>
             </Grid>
         </Grid>

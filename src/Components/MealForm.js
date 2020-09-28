@@ -9,8 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
 import AddCircle from "@material-ui/icons/AddCircle";
 import Grid from "@material-ui/core/Grid";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormControl from "@material-ui/core/FormControl";
+import Button from "@material-ui/core/Button";
+
 import Chip from "@material-ui/core/Chip";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -124,8 +124,8 @@ function MealForm({ mealsHandler }) {
         <Grid container className={classes.mainContainer}>
             <h1 className={classes.title}>Add a Meal</h1>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={4} className={classes.inputs}>
+            <form>
+                <Grid container spacing={5} className={classes.inputs}>
                     <Grid item>
                         <Controller
                             as={
@@ -169,7 +169,14 @@ function MealForm({ mealsHandler }) {
                     </Grid>
                 </Grid>
                 <Meal foods={foods} carbCount={meals.carb_count} />
-                <button className="button">Add a new meal!</button>
+
+                <Button
+                    variant="contained"
+                    onClick={handleSubmit(onSubmit)}
+                    color="secondary"
+                >
+                    Add a new meal!
+                </Button>
             </form>
 
             <Modal
