@@ -121,78 +121,81 @@ function MealForm({ mealsHandler }) {
     };
 
     return (
-        <Grid container className={classes.mainContainer}>
+        <>
             <h1 className={classes.title}>Add a Meal</h1>
+            <Grid container className={classes.mainContainer}>
+                <form>
+                    <Grid container spacing={5} className={classes.inputs}>
+                        <Grid item>
+                            <Controller
+                                as={
+                                    <Select>
+                                        <MenuItem value="breakfast">
+                                            Breakfast
+                                        </MenuItem>
+                                        <MenuItem value="lunch">Lunch</MenuItem>
+                                        <MenuItem value="dinner">
+                                            Dinner
+                                        </MenuItem>
+                                        <MenuItem value="snack">Snack</MenuItem>
+                                    </Select>
+                                }
+                                name="Select"
+                                control={control}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Controller
+                                control={control}
+                                name="ReactDatepicker"
+                                render={({ onChange, onBlur, value }) => (
+                                    <DatePicker
+                                        onChange={onChange}
+                                        onBlur={onBlur}
+                                        selected={value}
+                                        defaultValue={Date.now()}
+                                        showTimeSelect
+                                        timeIntervals={15}
+                                        timeCaption="Time"
+                                    />
+                                )}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Chip
+                                label="Add a Food"
+                                onClick={handleOpen}
+                                icon={<AddCircle />}
+                                color="secondary"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Meal foods={foods} carbCount={meals.carb_count} />
 
-            <form>
-                <Grid container spacing={5} className={classes.inputs}>
-                    <Grid item>
-                        <Controller
-                            as={
-                                <Select>
-                                    <MenuItem value="breakfast">
-                                        Breakfast
-                                    </MenuItem>
-                                    <MenuItem value="lunch">Lunch</MenuItem>
-                                    <MenuItem value="dinner">Dinner</MenuItem>
-                                    <MenuItem value="snack">Snack</MenuItem>
-                                </Select>
-                            }
-                            name="Select"
-                            control={control}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Controller
-                            control={control}
-                            name="ReactDatepicker"
-                            render={({ onChange, onBlur, value }) => (
-                                <DatePicker
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                    selected={value}
-                                    defaultValue={Date.now()}
-                                    showTimeSelect
-                                    timeIntervals={15}
-                                    timeCaption="Time"
-                                />
-                            )}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Chip
-                            label="Add a Food"
-                            onClick={handleOpen}
-                            icon={<AddCircle />}
-                            color="secondary"
-                        />
-                    </Grid>
-                </Grid>
-                <Meal foods={foods} carbCount={meals.carb_count} />
+                    <Button
+                        variant="contained"
+                        onClick={handleSubmit(onSubmit)}
+                        color="secondary"
+                    >
+                        Add a new meal!
+                    </Button>
+                </form>
 
-                <Button
-                    variant="contained"
-                    onClick={handleSubmit(onSubmit)}
-                    color="secondary"
+                <Modal
+                    disablePortal
+                    disableEnforceFocus
+                    disableAutoFocus
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="add-food"
                 >
-                    Add a new meal!
-                </Button>
-            </form>
-
-            <Modal
-                disablePortal
-                disableEnforceFocus
-                disableAutoFocus
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="add-food"
-            >
-                <div className={classes.modal}>
-                    <FoodForm addItem={addItem} submit={handleClose} />
-                </div>
-            </Modal>
-        </Grid>
+                    <div className={classes.modal}>
+                        <FoodForm addItem={addItem} submit={handleClose} />
+                    </div>
+                </Modal>
+            </Grid>
+        </>
     );
 }
 

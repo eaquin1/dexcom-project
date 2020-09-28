@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme) => ({
     mainContainer: {
         padding: "25px",
         textAlign: "center",
+        justifyContent: "center",
     },
-    title: {},
 }));
 function SugarChart({ sugarData, dates }) {
     const classes = useStyles();
