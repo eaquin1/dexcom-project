@@ -22,14 +22,9 @@ function Nav({ user, logout }) {
     const classes = useStyles();
     const loggedIn = (
         <div>
-            <Button
-                color="inherit"
-                onClick={logout}
-                className={classes.menuButton}
-            >
-                Logout
+            <Button color="inherit" href="/home" className={classes.menuButton}>
+                Home
             </Button>
-
             <Button
                 color="inherit"
                 href="/meals"
@@ -37,8 +32,12 @@ function Nav({ user, logout }) {
             >
                 Meals
             </Button>
-            <Button color="inherit" href="/home" className={classes.menuButton}>
-                Home
+            <Button
+                color="inherit"
+                onClick={logout}
+                className={classes.menuButton}
+            >
+                Logout
             </Button>
         </div>
     );
