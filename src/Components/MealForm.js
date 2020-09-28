@@ -22,16 +22,17 @@ const defaultValues = {
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        height: 300,
+    inputs: {
+        height: "100px",
         flexGrow: 1,
         minWidth: 300,
-        transform: "translateZ(0)",
-        // The position fixed scoping doesn't work in IE 11.
-        // Disable this demo to preserve the others.
-        "@media all and (-ms-high-contrast: none)": {
-            display: "none",
-        },
+        justifyContent: "center",
+        // transform: "translateZ(0)",
+        // // The position fixed scoping doesn't work in IE 11.
+        // // Disable this demo to preserve the others.
+        // "@media all and (-ms-high-contrast: none)": {
+        //     display: "none",
+        //},
     },
     modal: {
         position: "absolute",
@@ -41,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
         transform: `translate(-50%, -50%)`,
         padding: theme.spacing(1),
         alignItems: "center",
+        justifyContent: "center",
+    },
+    title: {
+        justifyContent: "center",
+    },
+    mainContainer: {
+        padding: 25,
         justifyContent: "center",
     },
 }));
@@ -113,47 +121,53 @@ function MealForm({ mealsHandler }) {
     };
 
     return (
-        <div>
-            <h1>Add a Meal</h1>
+        <Grid container className={classes.mainContainer}>
+            <h1 className={classes.title}>Add a Meal</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <section className={classes.root}>
-                    <Controller
-                        as={
-                            <Select>
-                                <MenuItem value="breakfast">Breakfast</MenuItem>
-                                <MenuItem value="lunch">Lunch</MenuItem>
-                                <MenuItem value="dinner">Dinner</MenuItem>
-                                <MenuItem value="snack">Snack</MenuItem>
-                            </Select>
-                        }
-                        name="Select"
-                        control={control}
-                    />
-                </section>
-                <Controller
-                    control={control}
-                    name="ReactDatepicker"
-                    render={({ onChange, onBlur, value }) => (
-                        <DatePicker
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            selected={value}
-                            defaultValue={Date.now()}
-                            showTimeSelect
-                            timeIntervals={15}
-                            timeCaption="Time"
+                <Grid container spacing={4} className={classes.inputs}>
+                    <Grid item>
+                        <Controller
+                            as={
+                                <Select>
+                                    <MenuItem value="breakfast">
+                                        Breakfast
+                                    </MenuItem>
+                                    <MenuItem value="lunch">Lunch</MenuItem>
+                                    <MenuItem value="dinner">Dinner</MenuItem>
+                                    <MenuItem value="snack">Snack</MenuItem>
+                                </Select>
+                            }
+                            name="Select"
+                            control={control}
                         />
-                    )}
-                />
-
-                <Chip
-                    label="Add a Food"
-                    onClick={handleOpen}
-                    icon={<AddCircle />}
-                    color="secondary"
-                />
-
+                    </Grid>
+                    <Grid item>
+                        <Controller
+                            control={control}
+                            name="ReactDatepicker"
+                            render={({ onChange, onBlur, value }) => (
+                                <DatePicker
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    selected={value}
+                                    defaultValue={Date.now()}
+                                    showTimeSelect
+                                    timeIntervals={15}
+                                    timeCaption="Time"
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Chip
+                            label="Add a Food"
+                            onClick={handleOpen}
+                            icon={<AddCircle />}
+                            color="secondary"
+                        />
+                    </Grid>
+                </Grid>
                 <Meal foods={foods} carbCount={meals.carb_count} />
                 <button className="button">Add a new meal!</button>
             </form>
@@ -168,14 +182,10 @@ function MealForm({ mealsHandler }) {
                 aria-describedby="add-food"
             >
                 <div className={classes.modal}>
-                    <FoodForm
-                        // className={classes.paper}
-                        addItem={addItem}
-                        submit={handleClose}
-                    />
+                    <FoodForm addItem={addItem} submit={handleClose} />
                 </div>
             </Modal>
-        </div>
+        </Grid>
     );
 }
 

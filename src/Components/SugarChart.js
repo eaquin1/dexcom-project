@@ -7,13 +7,15 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     mainContainer: {
         padding: "25px",
+        textAlign: "center",
     },
+    title: {},
 }));
 function SugarChart({ sugarData, dates }) {
     const classes = useStyles();
     return (
         <Grid container className={classes.mainContainer}>
-            <h1>{`Glucose Levels from ${format(
+            <h1 className={classes.title}>{`Glucose Levels from ${format(
                 new Date(dates.startDate),
                 "MM/dd/yyyy h:mm aaaa"
             )} to ${format(
