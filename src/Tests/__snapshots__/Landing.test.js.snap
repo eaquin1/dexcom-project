@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root makeStyles-mainContainer-4 MuiGrid-container"
+  >
+    <div
+      class="MuiGrid-root makeStyles-header-5 MuiGrid-container"
+    >
+      <h1>
+        Type One Diabetes
+      </h1>
+      <div
+        class="MuiGrid-root makeStyles-typing-6 MuiGrid-item"
+      >
+        <span
+          style="color: red;"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <h5>
+        Currently, there are some 1.6 million Americans living with T1D, and there is no known cure
+      </h5>
+      <p>
+        T1 is an autoimmune disease that causes the pancreas to stop producing insulin, and the body cannot manage blood-sugar levels on its own.
+      </p>
+      <p>
+        The only way to manage T1 is with insulin, and constantly monitoring blood-sugar levels. Instead of multiple finger pricks a day to check blood sugar levels, a continuous glucose monitor (CGM) can be worn. One common brand of CGM is the Dexcom. It sends data with your blood sugar readings, every five minutes.
+      </p>
+      <p>
+        This data is instrumental to managing your day to day activites with T1 diabetes. It can be overwhelming, however, to suddenly be confronted with a rollercoaster of blood-sugar highs and lows. CarbCounter allows you to look up the carb count in the foods you eat. Once you've entered a meal, CarbCounter will help you visualize what you've eaten compared to your blood sugar. Over time, you'll gain insight about how various foods work for you - not just the carb number.
+      </p>
+      <p>
+        Source: 
+        <a
+          href="https://www.jdrf.org/t1d-resources/about/facts/"
+        >
+          JDRF
+        </a>
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <a
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text"
+        href="https://dexcom-tracker.herokuapp.com/auth/dexcom"
+        tabindex="0"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Log into Dexcom
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;

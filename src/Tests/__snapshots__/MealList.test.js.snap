@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing the MealList matches snapshot 1`] = `
+<DocumentFragment>
+  <h1>
+    No meals added yet 
+  </h1>
+</DocumentFragment>
+`;
